@@ -1,23 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import { Route, Routes } from "react-router-dom";
+import Home from "./Componant/Home";
+import Navigation from "./Componant/Navigation/Navigation";
+import Login from "./Componant/Login/Login";
+import Registration from "./Componant/Registration/Registration";
+import ProtectedRoute from "./Componant/ProtectedRoute/ProtectedRoute";
+import PublicRoute from "./Componant/PublicRoute/PublicRoute";
 
 function App() {
+  // const [token,setToken] = React.useState("")
+  // const [checktoken, setCheckToken] = React.useState(false);
+  
+  // useEffect(() => {
+  //   HandlerToken();
+  // }, []);
+  
+  // const HandlerToken = () => {
+  //   // debugger;
+    
+  //   let token = localStorage.getItem("login-token");
+  //   if (token) {
+  //     setCheckToken(true);
+  //   } else {
+  //     setCheckToken(false);
+  //   }
+  // };
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div>
+      <Routes>
+        <Route
+          element={
+            <Navigation />
+          }
         >
-          Learn React
-        </a>
-      </header>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<Home />} />
+          </Route>
+          <Route element={<PublicRoute />}>
+            <Route
+              path="/login"
+              element={<Login  />}
+            />
+            <Route path="/registration" element={<Registration />} />
+          </Route>
+        </Route>
+      </Routes>
     </div>
   );
 }
