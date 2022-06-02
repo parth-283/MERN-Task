@@ -8,7 +8,7 @@ function Navigation() {
 
   const HandleLogOut = async () => {
     localStorage.setItem("login-token", "");
-    navigate("/login");
+    navigate("/");
   };
   return (
     <div>
@@ -18,7 +18,7 @@ function Navigation() {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <h4>
-                  <Link className="nav-link active" aria-current="page" to="/">
+                  <Link className="nav-link active" aria-current="page" to="/home">
                     Home
                   </Link>
                 </h4>

@@ -10,14 +10,14 @@ import PublicRoute from "./Componant/PublicRoute/PublicRoute";
 function App() {
   // const [token,setToken] = React.useState("")
   // const [checktoken, setCheckToken] = React.useState(false);
-  
+
   // useEffect(() => {
   //   HandlerToken();
   // }, []);
-  
+
   // const HandlerToken = () => {
   //   // debugger;
-    
+
   //   let token = localStorage.getItem("login-token");
   //   if (token) {
   //     setCheckToken(true);
@@ -26,23 +26,16 @@ function App() {
   //   }
   // };
 
-
   return (
     <div>
       <Routes>
-        <Route
-          element={
-            <Navigation />
-          }
-        >
-          <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<Home />} />
+        <Route path="/" element={<Navigation />}>
+          <Route path="/" element={<ProtectedRoute />}>
+            <Route path="/home" element={<Home />} />
           </Route>
-          <Route element={<PublicRoute />}>
-            <Route
-              path="/login"
-              element={<Login  />}
-            />
+          
+          <Route path="/" element={<PublicRoute />}>
+            <Route path="/login" element={<Login />} />
             <Route path="/registration" element={<Registration />} />
           </Route>
         </Route>

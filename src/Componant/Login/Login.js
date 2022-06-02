@@ -36,7 +36,7 @@ function Login({ HandlerToken }) {
   const HandleLogin = async () => {
     LoginAPI();
     setTimeout(() => {
-      navigate("/");
+      navigate("/home");
     }, 500);
   };
 

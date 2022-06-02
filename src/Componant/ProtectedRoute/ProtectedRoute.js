@@ -1,16 +1,13 @@
-import { Outlet } from "react-router-dom";
-import Login from "../Login/Login";
-
-
+import { Outlet, Navigate } from "react-router-dom";
 
 const useAuth = () => {
-    let token = localStorage.getItem("login-token");
-    return token 
-}
+  let token = localStorage.getItem("login-token");
+  return token;
+};
 
 const ProtectedRoute = () => {
-    const isauth = useAuth()
-    return isauth ? <Outlet/> : <Login/>
-}
+  const isauth = useAuth();
+  return isauth ? <Outlet /> : <Navigate to="/login" />;
+};
 
-export default ProtectedRoute
+export default ProtectedRoute;
