@@ -1,6 +1,8 @@
 import React from "react";
 import "../Style/Main.css";
 
+import { ToastContainer, toast } from "react-toastify";
+
 function Home() {
   const [userdata, setUserData] = React.useState([]);
   let token = localStorage.getItem("login-token");
@@ -15,10 +17,17 @@ function Home() {
       redirect: "follow",
     };
 
-    await fetch("http://localhost:5000/user", requestOptions)
-      .then((response) => response.json())
-      .then((result) => setUserData(result))
-      .catch((error) => console.log("error", error));
+    await toast.promise(
+      fetch("http://localhost:5000/user", requestOptions)
+        .then((response) => response.json())
+        .then((result) => setUserData(result))
+        .catch((error) => console.log("error", error)),
+      {
+        pending: "Promise is pending",
+        success: "Promise resolved 👌",
+        error: "Promise rejected 🤯",
+      }
+    );
   };
   React.useEffect(() => {
     UserAPI();
@@ -55,8 +64,7 @@ function Home() {
             {userdata.result && (
               <div>
                 <label>
-                  <span>{userdata?.result?.name}</span>
-                    : expiredAt-
+                  <span>{userdata?.result?.name}</span>: expiredAt-
                   {userdata?.result?.expiredAt}{" "}
                 </label>
               </div>
@@ -64,6 +72,7 @@ function Home() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

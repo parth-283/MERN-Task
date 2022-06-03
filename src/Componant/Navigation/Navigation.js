@@ -18,7 +18,7 @@ function Navigation() {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               <li className="nav-item">
                 <h4>
-                  <Link className="nav-link active" aria-current="page" to="/home">
+                  <Link className="nav-link active" aria-current="page" to="/">
                     Home
                   </Link>
                 </h4>

@@ -7,7 +7,7 @@ const useAuth = () => {
 
 const PublicRoute = () => {
   const isauth = useAuth();
-  return isauth ? <Navigate to="/home" /> : <Outlet />;
+  return isauth ? <Navigate to="/" /> : <Outlet />;
 };
 
 export default PublicRoute;

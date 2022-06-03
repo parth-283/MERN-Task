@@ -1,6 +1,8 @@
 import React from "react";
 import "../../Style/Main.css";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
+
+import { ToastContainer, toast } from "react-toastify";
 
 function Registration() {
   const [regdata, setRegData] = React.useState({
@@ -9,10 +11,10 @@ function Registration() {
     Address: "",
     Password: "",
   });
-  const [token, steToken] = React.useState("")
-  const navigate = useNavigate()
-  
-  const registerAPI = () => {
+  const [token, steToken] = React.useState("");
+  const navigate = useNavigate();
+
+  const registerAPI = async () => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -30,17 +32,25 @@ function Registration() {
       redirect: "follow",
     };
 
-    fetch("http://localhost:5000/register", requestOptions)
-      .then((response) => response.json())
-      .then((result) => steToken(result))
-      .catch((error) => console.log("error", error));
+    await toast.promise(
+      fetch("http://localhost:5000/register", requestOptions)
+        .then((response) => response.json())
+        .then((result) => steToken(result))
+        .catch((error) => console.log("error", error)),
+      {
+        pending: "Promise is pending",
+        success: "Promise resolved 👌",
+        error: "Promise rejected 🤯",
+      }
+    );
   };
 
   const HandleClick = (e) => {
-    registerAPI()
-    navigate('/login')
+    registerAPI();
+    setTimeout(() => {
+      navigate("/login");
+    }, 2000);
   };
-
 
   return (
     <div className="Main">
@@ -99,6 +109,7 @@ function Registration() {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }

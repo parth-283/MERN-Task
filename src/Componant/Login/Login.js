@@ -3,11 +3,14 @@ import "../../Style/Main.css";
 import "../../Style/login.css";
 import { useNavigate } from "react-router-dom";
 
+import { ToastContainer, toast } from "react-toastify";
+
 function Login({ HandlerToken }) {
   const [logindata, setLoginData] = React.useState({
     email: "",
     password: "",
   });
+  const [Maintoken, setMainToken] = React.useState("");
   const navigate = useNavigate();
 
   const LoginAPI = async () => {
@@ -25,19 +28,35 @@ function Login({ HandlerToken }) {
       redirect: "follow",
     };
 
-    await fetch("http://localhost:5000/login", requestOptions)
-      .then((response) => response.json())
-      .then(async(result) => {
-        localStorage.setItem("login-token", result.token);
-      })
-      .catch((error) => console.log("Error", error));
+    await toast.promise(
+      fetch("http://localhost:5000/login", requestOptions)
+        .then((response) => response.json())
+        .then(async (result) => {
+          setMainToken(result.token);
+          localStorage.setItem("login-token", result.token);
+        })
+        .catch((error) => console.log("Error", error)),
+      {
+        pending: "Promise is pending",
+        success: "Promise resolved 👌",
+        error: "Promise rejected 🤯",
+      }
+    );
+
+    // await fetch("http://localhost:5000/login", requestOptions)
+    //   .then((response) => response.json())
+    //   .then(async (result) => {
+    //     setMainToken(result.token)
+    //     localStorage.setItem("login-token",result.token )
+    //   })
+    //   .catch((error) => console.log("Error", error));
   };
 
   const HandleLogin = async () => {
     LoginAPI();
     setTimeout(() => {
-      navigate("/home");
-    }, 500);
+      navigate("/");
+    }, 3000);
   };
 
   return (
@@ -71,6 +90,7 @@ function Login({ HandlerToken }) {
           <button className="btn btn-success" onClick={() => HandleLogin()}>
             Login
           </button>
+          <ToastContainer />
         </div>
       </div>
     </div>
