@@ -10,6 +10,9 @@ function Login({ HandlerToken }) {
     email: "",
     password: "",
   });
+  const [Maintoken, setMainToken] = React.useState("");
+  const [loader, setLoader] = React.useState(false);
+
   const navigate = useNavigate();
 
   const LoginAPI = async () => {
@@ -31,11 +34,11 @@ function Login({ HandlerToken }) {
       fetch("http://localhost:5000/login", requestOptions)
         .then((response) => response.json())
         .then(async (result) => {
-          toast.success('Request successfull')
+          toast.success("Login successfull");
           localStorage.setItem("login-token", result.token);
+          setMainToken(result.token);
         })
-        .catch((error) => toast.error('request failed')),
-     
+        .catch((error) => toast.error("request failed"))
     );
 
     // await fetch("http://localhost:5000/login", requestOptions)
@@ -47,16 +50,32 @@ function Login({ HandlerToken }) {
     //   .catch((error) => console.log("Error", error));
   };
 
+  console.log(Maintoken);
+  React.useEffect(() => {
+    if (Maintoken.length > 0) {
+      setLoader(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 3000);
+    } else {
+      setLoader(false);
+    }
+  }, [Maintoken]);
+
   const HandleLogin = async () => {
     LoginAPI();
-    setTimeout(() => {
-      navigate("/");
-    }, 3000);
   };
 
   return (
     <div className="Main">
       <div className="Main-header left-align">
+        {loader ? (
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        ) : (
+          <div>
+
         <div className="mb-3 ">
           <label className="form-label">Email</label>
           <input
@@ -85,8 +104,10 @@ function Login({ HandlerToken }) {
           <button className="btn btn-success" onClick={() => HandleLogin()}>
             Login
           </button>
-          <ToastContainer />
+          </div>
         </div>
+        )}
+        <ToastContainer />
       </div>
     </div>
   );
