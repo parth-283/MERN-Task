@@ -10,7 +10,6 @@ function Login({ HandlerToken }) {
     email: "",
     password: "",
   });
-  const [Maintoken, setMainToken] = React.useState("");
   const navigate = useNavigate();
 
   const LoginAPI = async () => {
@@ -32,15 +31,11 @@ function Login({ HandlerToken }) {
       fetch("http://localhost:5000/login", requestOptions)
         .then((response) => response.json())
         .then(async (result) => {
-          setMainToken(result.token);
+          toast.success('Request successfull')
           localStorage.setItem("login-token", result.token);
         })
-        .catch((error) => console.log("Error", error)),
-      {
-        pending: "Promise is pending",
-        success: "Promise resolved 👌",
-        error: "Promise rejected 🤯",
-      }
+        .catch((error) => toast.error('request failed')),
+     
     );
 
     // await fetch("http://localhost:5000/login", requestOptions)

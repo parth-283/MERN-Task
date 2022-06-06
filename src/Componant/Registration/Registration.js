@@ -11,7 +11,6 @@ function Registration() {
     Address: "",
     Password: "",
   });
-  const [token, steToken] = React.useState("");
   const navigate = useNavigate();
 
   const registerAPI = async () => {
@@ -35,13 +34,10 @@ function Registration() {
     await toast.promise(
       fetch("http://localhost:5000/register", requestOptions)
         .then((response) => response.json())
-        .then((result) => steToken(result))
-        .catch((error) => console.log("error", error)),
-      {
-        pending: "Promise is pending",
-        success: "Promise resolved 👌",
-        error: "Promise rejected 🤯",
-      }
+        .then((result) => {
+          toast.success("Request successfull");
+        })
+        .catch((error) => toast.error("request failed"))
     );
   };
 
@@ -49,7 +45,7 @@ function Registration() {
     registerAPI();
     setTimeout(() => {
       navigate("/login");
-    }, 2000);
+    }, 3000);
   };
 
   return (

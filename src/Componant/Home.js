@@ -20,13 +20,12 @@ function Home() {
     await toast.promise(
       fetch("http://localhost:5000/user", requestOptions)
         .then((response) => response.json())
-        .then((result) => setUserData(result))
-        .catch((error) => console.log("error", error)),
-      {
-        pending: "Promise is pending",
-        success: "Promise resolved 👌",
-        error: "Promise rejected 🤯",
-      }
+        .then((result) => {
+          toast.success("Request successfull");
+          setUserData(result);
+        })
+        .catch((error) => toast.error("request failed")),
+      
     );
   };
   React.useEffect(() => {
