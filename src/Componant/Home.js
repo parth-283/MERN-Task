@@ -22,8 +22,7 @@ function Home() {
       fetch("http://localhost:5000/user", requestOptions)
         .then((response) => response.json())
         .then((result) => {
-          toast.success("User successfull Login");
-
+          // toast.success("successfull request");
           setUserData(result);
         })
         .catch((error) => toast.error("request failed"))
