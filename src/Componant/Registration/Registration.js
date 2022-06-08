@@ -11,6 +11,12 @@ function Registration() {
     Address: "",
     Password: "",
   });
+  const [validation, setValidation] = React.useState({
+    Name: "",
+    Email: "",
+    Address: "",
+    Password: "",
+  });
   const [token, steToken] = React.useState("");
   const [loader, setLoader] = React.useState(false);
 
@@ -57,8 +63,71 @@ function Registration() {
     }
   }, [token]);
 
+  let filterEmail =/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  let filterName = /^[a-zA-Z\s]*$/;
+
+  const validationHandler = () => {
+    if (
+      regdata.Name === "" &&
+      regdata.Email === "" &&
+      regdata.Address === "" &&
+      regdata.Password === ""
+    ) {
+      setValidation({
+        ...validation,
+        Name: "*",
+        Email: "*",
+        Address: "*",
+        Password: "*",
+      });
+    } else if (regdata.Name === "") {
+      setValidation({ ...validation, Name: "*" });
+    } else if (!filterName.test(regdata.Name)) {
+      setValidation({ ...validation, Name: "*Invalid field*" });
+    } else if (regdata.Email === "") {
+      setValidation({ ...validation, Name: "", Email: "*" });
+    } else if (!filterEmail.test(regdata.Email)) {
+      setValidation({ ...validation, Email: "*Email is Wrong*" });
+    } else if (regdata.Address === "") {
+      setValidation({
+        ...validation,
+        Email: "",
+        Address: "*",
+      });
+    } else if (regdata.Password === "") {
+      setValidation({
+        ...validation,
+        Address: "",
+        Password: "*",
+      });
+    } else if (regdata.Password.length < 8 || regdata.Password.length > 16) {
+      setValidation({
+        ...validation,
+        Password: "Password is must be min 8 & max 16 characters",
+      });
+    } else {
+      setValidation({ ...validation, Password: "" });
+      console.log(" All Complate");
+    }
+  };
+  React.useEffect(() => {
+    validationHandler()
+  }, [regdata]);
+  console.log(validation, "###########validation#############");
+
   const HandleClick = (e) => {
-    registerAPI();
+    if (
+      validation.Name === "" &&
+      validation.Email === "" &&
+      validation.Address === "" &&
+      validation.Password === ""
+    ) {
+      console.log("Halti no thaaaaaa#########");
+    } else {
+      console.log("Ubhi no ree");
+      validationHandler()
+    }
+    // registerAPI();
   };
 
   return (
@@ -73,6 +142,11 @@ function Registration() {
             <div>
               <div className="mb-3 ">
                 <label className="form-label fs-5 fw-light">Name</label>
+                {validation.Name && (
+                  <label className="form-label fs-5 fw-light text-danger">
+                    {validation.Name}
+                  </label>
+                )}
                 <input
                   type="text"
                   className="form-control"
@@ -85,6 +159,11 @@ function Registration() {
               </div>
               <div className="mb-3 ">
                 <label className="form-label fs-5 fw-light">Email</label>
+                {validation.Email && (
+                  <label className="form-label fs-5 fw-light text-danger">
+                    {validation.Email}
+                  </label>
+                )}
                 <input
                   type="email"
                   className="form-control"
@@ -97,6 +176,11 @@ function Registration() {
               </div>
               <div className="mb-3 ">
                 <label className="form-label fs-5 fw-light">Address</label>
+                {validation.Address && (
+                  <label className="form-label fs-5 fw-light text-danger">
+                    {validation.Address}
+                  </label>
+                )}
                 <input
                   type="text"
                   className="form-control"
@@ -109,6 +193,11 @@ function Registration() {
               </div>
               <div className="mb-3">
                 <label className="form-label fs-5 fw-light">Password</label>
+                {validation.Password && (
+                  <label className="form-label fs-5 fw-light text-danger">
+                    {validation.Password}
+                  </label>
+                )}
                 <input
                   type="Password"
                   className="form-control"
