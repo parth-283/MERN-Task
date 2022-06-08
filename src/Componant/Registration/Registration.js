@@ -63,7 +63,8 @@ function Registration() {
     }
   }, [token]);
 
-  let filterEmail =/^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+  let filterEmail =
+    /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
   let filterName = /^[a-zA-Z\s]*$/;
 
   const validationHandler = () => {
@@ -111,7 +112,7 @@ function Registration() {
     }
   };
   React.useEffect(() => {
-    validationHandler()
+    validationHandler();
   }, [regdata]);
   console.log(validation, "###########validation#############");
 
@@ -122,12 +123,11 @@ function Registration() {
       validation.Address === "" &&
       validation.Password === ""
     ) {
-      console.log("Halti no thaaaaaa#########");
+      registerAPI();
     } else {
       console.log("Ubhi no ree");
-      validationHandler()
+      validationHandler();
     }
-    // registerAPI();
   };
 
   return (
