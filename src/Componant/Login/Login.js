@@ -111,7 +111,6 @@ console.log(validation);
     ) {
       LoginAPI();
     } else {
-      console.log("Ubhi no ree");
       validationHandler();
     }
   };
