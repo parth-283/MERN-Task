@@ -125,7 +125,6 @@ function Registration() {
     ) {
       registerAPI();
     } else {
-      console.log("Ubhi no ree");
       validationHandler();
     }
   };

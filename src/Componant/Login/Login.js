@@ -10,6 +10,10 @@ function Login({ HandlerToken }) {
     email: "",
     password: "",
   });
+  const [validation, setValidation] = React.useState({
+    email: "",
+    password: "",
+  });
   const [Maintoken, setMainToken] = React.useState("");
   const [loader, setLoader] = React.useState(false);
 
@@ -50,7 +54,41 @@ function Login({ HandlerToken }) {
     //   .catch((error) => console.log("Error", error));
   };
 
-  console.log(Maintoken);
+  let filterEmail =
+    /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+
+  const validationHandler = () => {
+    if (logindata.email === "" && logindata.password === "") {
+      setValidation({
+        ...validation,
+        email: "*",
+        password: "*",
+      });
+    } else if (logindata.email === "") {
+      setValidation({ ...validation, Name: "", email: "*" });
+    } else if (!filterEmail.test(logindata.email)) {
+      setValidation({ ...validation, email: "*Email is Wrong*" });
+    } else if (logindata.password === "") {
+      setValidation({
+        ...validation,
+        email: "",
+        password: "*",
+      });
+    } else if (
+      logindata.password.length < 8 ||
+      logindata.password.length > 16
+    ) {
+      setValidation({
+        ...validation,
+        password: "Password is must be min 8 & max 16 characters",
+      });
+    } else {
+      setValidation({ ...validation, password: "" });
+      console.log(" All Complate");
+    }
+  };
+console.log(validation);
+
   React.useEffect(() => {
     if (Maintoken.length > 0) {
       setLoader(true);
@@ -62,8 +100,20 @@ function Login({ HandlerToken }) {
     }
   }, [Maintoken]);
 
+  React.useEffect(() => {
+    validationHandler();
+  }, [logindata]);
+
   const HandleLogin = async () => {
-    LoginAPI();
+    if (
+      validation.email === "" &&
+      validation.password === ""
+    ) {
+      LoginAPI();
+    } else {
+      console.log("Ubhi no ree");
+      validationHandler();
+    }
   };
 
   return (
@@ -75,37 +125,46 @@ function Login({ HandlerToken }) {
           </div>
         ) : (
           <div>
-
-        <div className="mb-3 ">
-          <label className="form-label">Email</label>
-          <input
-            type="email"
-            className="form-control"
-            id="exampleFormControlInput1"
-            placeholder="name@example.com"
-            onChange={(e) =>
-              setLoginData({ ...logindata, email: e.target.value })
-            }
-          />
-        </div>
-        <div className="mb-3">
-          <label className="form-label">Password</label>
-          <input
-            type="Password"
-            className="form-control"
-            id="exampleFormControlInput2"
-            placeholder="Password"
-            onChange={(e) =>
-              setLoginData({ ...logindata, password: e.target.value })
-            }
-          />
-        </div>
-        <div className="mb-3">
-          <button className="btn btn-success" onClick={() => HandleLogin()}>
-            Login
-          </button>
+            <div className="mb-3 ">
+              <label className="form-label">Email</label>
+              {validation.email && (
+                <label className="form-label fs-5 fw-light text-danger">
+                  {validation.email}
+                </label>
+              )}
+              <input
+                type="email"
+                className="form-control"
+                id="exampleFormControlInput1"
+                placeholder="name@example.com"
+                onChange={(e) =>
+                  setLoginData({ ...logindata, email: e.target.value })
+                }
+              />
+            </div>
+            <div className="mb-3">
+              <label className="form-label">Password</label>
+              {validation.password && (
+                <label className="form-label fs-5 fw-light text-danger">
+                  {validation.password}
+                </label>
+              )}
+              <input
+                type="password"
+                className="form-control"
+                id="exampleFormControlInput2"
+                placeholder="password"
+                onChange={(e) =>
+                  setLoginData({ ...logindata, password: e.target.value })
+                }
+              />
+            </div>
+            <div className="mb-3">
+              <button className="btn btn-success" onClick={() => HandleLogin()}>
+                Login
+              </button>
+            </div>
           </div>
-        </div>
         )}
         <ToastContainer />
       </div>
